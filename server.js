@@ -6,7 +6,7 @@ const client = new Discord.Client({
   fetchAllMembers: true,
   partials: ["MESSAGE", "USER", "REACTION"]
 });
-let token = "enter your token here"
+let token = "put token here"
 const port = 1000;
 client.commands = new Discord.Collection();
 client.aliases = new Discord.Collection();
@@ -43,4 +43,6 @@ fs.readdir("./events/", (err, files) => {
     client.on(eventName, event.bind(null, client));
   });
 });
+
+
 client.login(token);

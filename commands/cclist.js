@@ -1,9 +1,9 @@
 const Discord = require("discord.js");
 const db = require("quick.db");
 module.exports.run = async (client, message, args) => {
-  var roles = db
+  let roles = db
     .all()
-    .filter(data => data.ID.startsWith(`rolereactions_${message.guild.id}`))
+    .filter(data => data.ID.startsWith(`customcommand_${message.guild.id}`))
     .sort((a, b) => b.data - a.data);
 
   if (!roles.length) {
@@ -15,9 +15,7 @@ module.exports.run = async (client, message, args) => {
   }
 
   const embed = new Discord.MessageEmbed()
-    .setTitle(
-      `Role reactions \`POSITION\` | \`ID\` | \`ROLE\` | \`EMOJI\` | \`MESSAGE ID\``
-    )
+    .setTitle(`Custom commands \`POSITION\` | \`ID\` | \`NAME\` | \`CONTENT\``)
     .setColor("#FF5349");
 
   let page = Math.ceil(roles.length / 10);
@@ -39,13 +37,10 @@ module.exports.run = async (client, message, args) => {
     for (i = start; i < roles.length; i++) {
       let data = roles[i].data;
       let goodData = JSON.parse(data);
-      let role = message.guild.roles.cache.get(goodData.role);
-      let msgurl;
-    
       array.push(
-        `\`#${roles.indexOf(roles[i]) + 1}\` \`${goodData.id}\` | ${role} | \`${
-          goodData.emoji
-        }\` | [${goodData.msg}](${goodData.url})`
+        `\`#${roles.indexOf(roles[i]) + 1}\` \`${goodData.id}\` | \`${
+          goodData.name
+        }\` | \`${goodData.content}\``
       );
       embed.setDescription(array.join("\n"));
     }
@@ -55,13 +50,10 @@ module.exports.run = async (client, message, args) => {
     for (i = start; i < end; i++) {
       let data = roles[i].data;
       let goodData = JSON.parse(data);
-      let role = message.guild.roles.cache.get(goodData.role);
-      let msgurl;
-   
       array.push(
-        `\`#${roles.indexOf(roles[i]) + 1}\` \`${goodData.id}\` | ${role} | \`${
-          goodData.emoji
-        }\` | [${goodData.msg}](${goodData.url})`
+        `\`#${roles.indexOf(roles[i]) + 1}\` \`${goodData.id}\` | \`${
+          goodData.name
+        }\` | \`${goodData.content}\``
       );
       embed.setDescription(array.join("\n"));
     }
@@ -70,8 +62,8 @@ module.exports.run = async (client, message, args) => {
   message.channel.send(embed);
 };
 module.exports.help = {
-  name: "rrlist",
-  description: "Lists all reactions roles",
+  name: "cclist",
+  description: "Lists all custom commands",
   usage: " <page number>",
-  aliases: ["rrlist"]
+  aliases: ["cclist"]
 };

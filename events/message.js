@@ -1,7 +1,7 @@
 module.exports = async (client, message) => {
   let prefixss = "r.";
-  let prefixes = [prefixss, "<@!730564471101325335>", "<@730564471101325335>"];
-
+  let prefixes = [prefixss, "<@!748071702302294036>", "<@748071702302294036>"];
+  let db = require("quick.db");
   let prefix = false;
   for (const thisPrefix of prefixes) {
     if (message.content.toLowerCase().startsWith(thisPrefix.toLowerCase()))
@@ -9,12 +9,18 @@ module.exports = async (client, message) => {
   }
 
   if (!message.content.toLowerCase().startsWith(prefix)) return;
+
   let args = message.content
     .slice(prefix.toLowerCase().length)
     .trim()
     .split(/ +/g);
   let cmd;
   cmd = args.shift().toLowerCase();
+
+  let exist = db.fetch(`customcommand_${message.guild.id}_${cmd}`);
+  if (exist) {
+    message.channel.send(exist);
+  }
   let command;
 
   if (client.commands.has(cmd)) {
@@ -24,8 +30,12 @@ module.exports = async (client, message) => {
   }
 
   try {
-    command.run(client, message, args);
+    
+
+  
+      command.run(client, message, args);
+  
   } catch (e) {
-    return;
+    console.log(e.message);
   }
 };
