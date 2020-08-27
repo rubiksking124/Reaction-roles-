@@ -79,6 +79,7 @@ module.exports.run = async (client, message, args) => {
             message.guild.roles.cache.get(args[0]);
           settings.role = role.id;
         } catch (err) {
+          throw new Error("invalid role")
           message.reply(
             "Role not found reaction role creation has been stopped"
           );
@@ -88,11 +89,14 @@ module.exports.run = async (client, message, args) => {
         function isCustomEmoji(emoji) {
           return emoji.split(":").length == 1 ? false : true;
         }
-        if (isCustomEmoji(emoji))
+        if (isCustomEmoji(emoji)){
+           throw new Error("invalid emoji")
           return message.reply(
             "Emoji is custom reaction role creation has been stopped"
           );
+        }else{
         settings.emoji = emoji;
+        }
       } else if (i === 2) {
         if (content === "--skip") {
           settings.text = "";
