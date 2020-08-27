@@ -24,5 +24,6 @@ module.exports.help = {
   name: "ping",
   description: "Pings the bot",
   usage: " ",
-  aliases: ["ping"]
+  aliases: ["ping"],
+  
 };

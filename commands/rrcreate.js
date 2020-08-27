@@ -42,7 +42,7 @@ module.exports.run = async (client, message, args) => {
         function random(length) {
     let string =
       "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
-    let secret = " ";
+    let secret = "";
     for (let i = length; i > 0; i--) {
       const random = Math.floor(Math.random() * string.length);
       const char = string.charAt(random);
@@ -54,6 +54,7 @@ module.exports.run = async (client, message, args) => {
   let string = random(24);
       roles.id = string
       roles.msg = msg.id
+      roles.url = msg.url
       db.set(`rolereactions_${message.guild.id}_${msg.id}`, roles);
     });
   } else if (choice.emoji.name === "❌") {
